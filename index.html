@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>Asynchronous Task Queues</title>
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="extensions/scale/deck.scale.css">
+
+  <!-- Rainbow stylesheet -->
+  <link rel="stylesheet" media="screen" href="rainbow/sunburst.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/style/adam12.css">
+
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/transition/horizontal-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="core/print.css">
+
+  <!-- Required Modernizr file -->
+  <script src="modernizr.custom.js"></script>
+</head>
+<body>
+  <div class="deck-container">
+    <!-- Begin slides. Just make elements with a class of slide. -->
+    <section class="slide">
+      <h1>Asynchronous Task Queues</h1>
+    </section>
+
+    <section class="slide image">
+      <img src="assets/CantSomeoneElseDoIt.png">
+    </section>
+
+    <section class="slide inverted">
+      <h1>Background</h1>
+    </section>
+
+    <section class="slide">
+      <h2>What</h2>
+
+      <ul>
+        <li>Work performed in another process/thread</li>
+        <li>Work performed on another machine or a pool of machines</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Why</h2>
+
+      <ul>
+        <li>Increase User-perceived performance</li>
+        <li>Avoid IO limitations (slow, unreliable, etc)</li>
+        <li>Scale horizontally</li>
+        <li>Avoid GIL in some languages (Ruby, Python)</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>When</h2>
+
+      <ul>
+        <li>Work considered optional at the time of execution</li>
+        <li>Web development: action(s) not required to build HTTP response</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Basic Concept</h2>
+
+      <ol>
+        <li>Client pushes message onto queue</li>
+        <li>Worker shifts message off queue</li>
+        <li>Worker executes code based on message</li>
+      </ol>
+    </section>
+
+    <section class="slide image">
+      <img src="assets/client-broker-worker.svg">
+    </section>
+
+    <section class="slide inverted">
+      <h1>Architecture</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Message Serialization</h2>
+
+      <ul>
+        <li>Structured payload format</li>
+        <li>Cross-platform type handling</li>
+        <li>Speed / Payload size</li>
+      </ul>
+
+      <h5>Examples</h5>
+
+      <ul>
+        <li>JSON</li>
+        <li>msgpack</li>
+        <li>YAML</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Abstractions</h2>
+
+      <ul>
+        <li>Generic interface to many job processors</li>
+        <li>Allow libraries to perform async work</li>
+      </ul>
+
+      <h5>Examples</h5>
+
+      <ul>
+        <li>Active Job</li>
+        <li>???</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Strategies</h2>
+
+      <h4>Pub/Sub</h4>
+      <ul>
+        <li>Most message brokers (&amp; PG with LISTEN/NOTIFY)</li>
+        <li>Less chance of race conditions - one message per worker</li>
+        <li>CPU efficient - block until recv</li>
+      </ul>
+
+      <h4>Polling</h4>
+      <ul>
+        <li>Normal with Database message bus</li>
+        <li>Race condition prone</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Job processors</h2>
+
+      <ul>
+        <li>Batteries included</li>
+        <li>Consistent interface</li>
+        <li>Job retry / worker durability</li>
+        <li>Some have concurrency built in</li>
+      </ul>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Language</th>
+            <th>Message Broker</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Celery</td><td>Python</td><td>Redis, Beanstalk, MongoDB, CouchDB, Database</td>
+          </tr>
+          <tr>
+            <td>Sidekiq</td><td>Ruby</td><td>Redis</td>
+          </tr>
+          <tr>
+            <td>Resque</td><td>Ruby</td><td>Redis</td>
+          </tr>
+          <tr>
+            <td>Delayed Job</td><td>Ruby</td><td>Database</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="slide">
+      <h2>Message Brokers</h2>
+
+      <ul>
+        <li>Accept messages from clients</li>
+        <li>Determine possible worker via queue names</li>
+        <li>Notify worker of job</li>
+      </ul>
+
+      <h5>Examples</h5>
+
+      <ul>
+        <li>Beanstalk</li>
+        <li>RabbitMQ</li>
+        <li>Redis</li>
+        <li>Database</li>
+        <li>IronMQ</li>
+        <li>Amazon SQS</li>
+        <li>many, many more</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Best Practices</h2>
+
+      <ul>
+        <li>Use small stateless messages</li>
+        <li>Keep data out of queue</li>
+        <li>Queue should have actions</li>
+        <li>Use a simple serialized type (JSON?)</li>
+        <li>Idempotent and transactional actions</li>
+      </ul>
+    </section>
+
+    <section class="slide inverted">
+      <h1>Demo</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Thank You</h2>
+
+      <dl>
+        <dt>Github</dt>
+        <dd><a href="http://github.com/adam12">github.com/adam12</a></dd>
+
+        <dt>Twitter</dt>
+        <dd><a href="http://twitter.com/adamrdaniels">@adamrdaniels</a></dd>
+
+        <dt>Sourcecode</dt>
+        <dd><a href="http://github.com/adam12/asynchronous-task-queues-devtricks-2014">github.com/adam12/asynchronous-task-queues-devtricks-2014</a></dd>
+      </dl>
+    </section>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="jquery.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+<script src="rainbow/rainbow-custom.min.js"></script>
+<script src="pretty-pre.js"></script>
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+
+  $(function() {
+    prettyPre.strip("pre > code");
+
+    $.deck('.slide');
+  });
+</script>
+</body>
+</html>

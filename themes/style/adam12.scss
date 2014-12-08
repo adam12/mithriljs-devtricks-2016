@@ -1,0 +1,170 @@
+@import "reset";
+
+//$primary: #fff;
+//$background: #64C5C7;
+// $primary: #b58900;
+// $background: #FEF7E2;
+$primary: #fff;
+$background: #002C38;
+
+h1 {
+  color: $primary;
+}
+
+h2 {
+  color: $primary;
+  border-bottom-color: #ccc;
+}
+
+h3 {
+  color: $primary;
+}
+
+pre {
+  border-color: #ccc;
+}
+
+blockquote {
+  font-size: 2em;
+  font-style: italic;
+  padding: 1em 2em;
+  color: #fff;
+  border-left: 5px solid #ccc;
+
+  p {
+    margin: 0;
+  }
+
+  cite {
+    font-size: 0.5em;
+    font-style: normal;
+    font-weight: bold;
+    color: #888;
+  }
+}
+
+::-moz-selection {
+  background: darken($background, 5%);
+  color: $primary;
+}
+
+::selection {
+  background: darken($background, 5%);
+  color: $primary;
+}
+
+a {
+  &, &:hover, &:focus, &:active, &:visited {
+    color: lighten($background, 35%);
+    text-decoration: none;
+  }
+
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+}
+
+.deck-container {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 1.75em;
+  background: $background;
+  color: $primary;
+
+  > .slide {
+    padding: 0 48px;
+  }
+}
+
+.slide {
+  .deck-before, .deck-previous {
+    //opacity: 0.4;
+
+    &:not(.deck-child-current) {
+      .deck-before, .deck-previous {
+        opacity: 1;
+      }
+    }
+  }
+
+  .deck-child-current {
+    opacity: 1;
+  }
+}
+
+.deck-prev-link, .deck-next-link {
+  background: inherit;
+  font-family:serif;
+
+  &, &:hover, &:focus, &:active, &:visited {
+    color: $primary;
+  }
+
+  &:hover, &:focus {
+    background: darken($background, 5%);
+    text-decoration: none;
+  }
+}
+
+.deck-status {
+  font-size: 0.6666em;
+  color: $primary;
+}
+
+.deck-menu {
+  .slide {
+    background: #eee;
+  }
+
+  .deck-current, .no-touch & .slide:hover {
+    background: #000;
+  }
+}
+
+.one-half {
+  width: 49%;
+  margin-right: 1%;
+  float: left;
+}
+
+iframe {
+  width: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+dl dd {
+  margin-bottom: 1em;
+}
+
+.slide.inverted {
+  background: $primary;
+  color: $background;
+
+  p, h1, h2, h3, span, a {
+    color: $background;
+  }
+}
+
+ul.more-information {
+  list-style: none;
+  margin-left: 0;
+}
+
+.slide.image {
+  img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 25%;
+  }
+}
+
+.slide table {
+  width: 100%;
+}
+
+.slide th {
+  text-align: left;
+}
