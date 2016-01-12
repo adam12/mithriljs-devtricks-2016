@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Asynchronous Task Queues</title>
+  <title>Mithril.js</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="core/deck.core.css">
@@ -36,11 +36,7 @@
   <div class="deck-container">
     <!-- Begin slides. Just make elements with a class of slide. -->
     <section class="slide">
-      <h1>Asynchronous Task Queues</h1>
-    </section>
-
-    <section class="slide image">
-      <img src="assets/CantSomeoneElseDoIt.png">
+      <h1>Mithril.js</h1>
     </section>
 
     <section class="slide inverted">
@@ -48,170 +44,368 @@
     </section>
 
     <section class="slide">
-      <h2>What</h2>
-
+      <h2>Why another framework?</h2>
       <ul>
-        <li>Work performed in another process/thread</li>
-        <li>Work performed on another machine or a pool of machines</li>
+        <li>Created out of frustration with current eco framework</li>
+        <li>Too much complexity</li>
+        <li>Awful docs (if any)</li>
+        <li>Performance issues</li>
       </ul>
     </section>
 
     <section class="slide">
-      <h2>Why</h2>
+      <h2>Dependency Free</h2>
+      <ul>
+        <li><strong>Backbone:</strong> jQuery, Underscore</li>
+        <li><strong>Ember:</strong> jQuery, Ember Template Compiler</li>
+        <li><strong>Angular:</strong> Angular Route, Angular Resource</li>
+        <li><strong>Mithril:</strong> None</li>
+        <li><strong>React:</strong> Grapnel, Reqwest, JSX Transformer</li>
+        <li><strong>Vue:</strong> Vue Router, Reqwest</li>
+    </section>
+
+    <section class="slide">
+      <h2>Fast!</h2>
+
+      <p>TodoMVC Benchmark: add 100 items, then delete them</p>
+      <img src="/assets/benchmark.png">
+
+      <h5>DISCLAIMER</h5>
+      <p>The benchmarks in this talk may be wrong. Many benchmarks are.</p>
+      <p>If you care about performance, benchmark for yourself for your own use cases!</p>
+    </section>
+
+    <section class="slide">
+      <h2>Small footprint (min+gzip)</h2>
 
       <ul>
-        <li>Increase User-perceived performance</li>
-        <li>Avoid IO limitations (slow, unreliable, etc)</li>
-        <li>Scale horizontally</li>
-        <li>Avoid GIL in some languages (Ruby, Python)</li>
+        <li>Angular.js          <em>37kb</em></li>
+        <li>Backbone.js w/deps  <em>45kb</em></li>
+        <li>Ember.js w/deps     <em>75kb</em></li>
+        <li>Mithril.js          <em>7kb</em></li>
       </ul>
     </section>
 
     <section class="slide">
-      <h2>When</h2>
-
+      <h2>Simple API</h2>
       <ul>
-        <li>Work considered optional at the time of execution</li>
-        <li>Web development: action(s) not required to build HTTP response</li>
+        <li>Very small API surface - ~ 20 methods</li>
+        <li>342kb of documentation, examples, prose, API</li>
+        <li>Familiarity</li>
       </ul>
+
+      <p>
+        "Familiar" is not necessarily "simple"
+        but it helps reduce learning curve
+      </p>
     </section>
 
     <section class="slide">
-      <h2>Basic Concept</h2>
+      <h2>Caveat beware</h2>
 
-      <ol>
-        <li>Client pushes message onto queue</li>
-        <li>Worker shifts message off queue</li>
-        <li>Worker executes code based on message</li>
-      </ol>
-    </section>
-
-    <section class="slide image">
-      <img src="assets/client-broker-worker.svg">
+      <p>Current version is 0.2.2-rc1</p>
+      <p>Is considered stable - no idea why pre 1.0</p>
+      <p>Codebase super small ~ 1200 lines.</p>
+      <p>Accepted risk when deciding to adopt</p>
+      <p>You should evaluate on your own</p>
     </section>
 
     <section class="slide inverted">
-      <h1>Architecture</h1>
+      <h1>Features</h1>
     </section>
 
     <section class="slide">
-      <h2>Message Serialization</h2>
+      <h2>Virtual DOM</h2>
 
-      <ul>
-        <li>Structured payload format</li>
-        <li>Cross-platform type handling</li>
-        <li>Speed / Payload size</li>
-      </ul>
+      <p>Just like HTML, but in Javascript</p>
 
-      <h5>Examples</h5>
+      <pre><code data-language="javascript">
+        |m("div", [
+        |  m("a", {href: "http://google.com"}, "Google")
+        |])
+      </code></pre>
 
-      <ul>
-        <li>JSON</li>
-        <li>msgpack</li>
-        <li>YAML</li>
-      </ul>
+      <pre><code data-language="html">
+        |&lt;div&gt;
+        |    &lt;a href="http://google.com"&gt;Google&lt;/a&gt;
+        |&lt;/div&gt;
+      </code></pre>
     </section>
 
     <section class="slide">
-      <h2>Abstractions</h2>
+      <h2>Virtual DOM with CSS syntax style</h2>
 
-      <ul>
-        <li>Generic interface to many job processors</li>
-        <li>Allow libraries to perform async work</li>
-      </ul>
+      <!-- CSS / Data attributes -->
+      <pre><code data-language="javascript">
+        |m(".panel.panel-default", [
+        |    m(".panel-heading", [
+        |       m("h3.panel-title", "Panel title")
+        |    ]),
+        |    m(".panel-body", [
+        |        "Panel content"
+        |    ])
+        |])
+      </code></pre>
 
-      <h5>Examples</h5>
-
-      <ul>
-        <li>Active Job</li>
-        <li>???</li>
-      </ul>
+      <pre><code data-language="html">
+         |&lt;div class="panel panel-default"&gt;
+         |     &lt;div class="panel-heading"&gt;
+         |         &lt;h3 class="panel-title"&gt;Panel title&lt;/h3&gt;
+         |     &lt;/div&gt;
+         |     &lt;div class="panel-body"&gt;
+         |         Panel content
+         |     &lt;/div&gt;
+         |&lt;/div&gt;
+      </code></pre>
     </section>
 
     <section class="slide">
-      <h2>Strategies</h2>
+      <h2>Integrates with other libraries</h2>
 
-      <h4>Pub/Sub</h4>
-      <ul>
-        <li>Most message brokers (&amp; PG with LISTEN/NOTIFY)</li>
-        <li>Less chance of race conditions - one message per worker</li>
-        <li>CPU efficient - block until recv</li>
-      </ul>
+      <p>Provides config attribute that is executed when element is rendered</p>
 
-      <h4>Polling</h4>
-      <ul>
-        <li>Normal with Database message bus</li>
-        <li>Race condition prone</li>
-      </ul>
+      <pre><code data-language="javascript">
+        |var pulse = function(el) {
+        |    Velocity(el, "callout.pulse")
+        |}
+        |
+        |return m("div", { config: pulse }, "Foobar")
+      </code></pre>
     </section>
 
     <section class="slide">
-      <h2>Job processors</h2>
+      <h2>Getters and Setters</h2>
 
+      <pre><code data-language="javascript">
+        |//a getter-setter
+        |var thing = m.prop( "MacBook" )
+        |console.log( thing() ) // "Macbook"
+        |
+        |thing( "iPhone" )
+        |console.log( thing() ) // "iPhone"
+      </code></pre>
+
+      <h4>Why?</h4>
       <ul>
-        <li>Batteries included</li>
-        <li>Consistent interface</li>
-        <li>Job retry / worker durability</li>
-        <li>Some have concurrency built in</li>
-      </ul>
-
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Language</th>
-            <th>Message Broker</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>Celery</td><td>Python</td><td>Redis, Beanstalk, MongoDB, CouchDB, Database</td>
-          </tr>
-          <tr>
-            <td>Sidekiq</td><td>Ruby</td><td>Redis</td>
-          </tr>
-          <tr>
-            <td>Resque</td><td>Ruby</td><td>Redis</td>
-          </tr>
-          <tr>
-            <td>Delayed Job</td><td>Ruby</td><td>Database</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="slide">
-      <h2>Message Brokers</h2>
-
-      <ul>
-        <li>Accept messages from clients</li>
-        <li>Determine possible worker via queue names</li>
-        <li>Notify worker of job</li>
-      </ul>
-
-      <h5>Examples</h5>
-
-      <ul>
-        <li>Beanstalk</li>
-        <li>RabbitMQ</li>
-        <li>Redis</li>
-        <li>Database</li>
-        <li>IronMQ</li>
-        <li>Amazon SQS</li>
-        <li>many, many more</li>
+        <li>Pass by reference</li>
+        <li>Functional composition</li>
       </ul>
     </section>
 
     <section class="slide">
-      <h2>Best Practices</h2>
+      <h2>Promises</h2>
+      <pre><code data-language="javascript">
+        |function doSomething() {
+        |    var deferred  = m.deferred()
+        |
+        |    setTimeout(function() {
+        |        deferred.resolve()
+        |    }, 1000)
+        |
+        |    return deferred.promise
+        |}
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>XHR</h2>
 
       <ul>
-        <li>Use small stateless messages</li>
-        <li>Keep data out of queue</li>
-        <li>Queue should have actions</li>
-        <li>Use a simple serialized type (JSON?)</li>
-        <li>Idempotent and transactional actions</li>
+        <li>m.request has similar syntax to jQuery $.ajax.</li>
+        <li>Integrated with Mithril redraw process</li>
+      </ul>
+
+      <pre><code data-language="javascript">
+        |var things = m.request({method: "GET", url: "/things.json"})
+        |  .then(list =&gt; list.slice(0, 10))
+        |  .then(list =&gt; list.slice(0, 3))
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Router</h2>
+
+      <p>Supports multiple modes:</p>
+      <ul>
+        <li>search (http://localhost/?/some/path) <em>default</em></li>
+        <li>hash (http://localhost/#/some/path)</li>
+        <li>pathname (http://localhost/some/path)</li>
+      </ul>
+
+      <pre><code data-language="javascript">
+        |// Index, Hello, Goodbye components defined elsewhere
+        |
+        |m.route(document.body, "/", {
+        |    "/": Index,
+        |    "/goodbye": Goodbye,
+        |
+        |    // Param matcher
+        |    "/hello/:name": Hello
+        |})
+      </code></pre>
+    </section>
+
+    <section class="slide inverted">
+      <h1>Why DOM in JS?<?/1>
+    </section>
+
+    <section class="slide">
+      <h2>Why HTML</h2>
+
+      <ul>
+        <li>Familiar syntax</li>
+        <li>Designer ease of use</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Why not HTML</h2>
+
+      <ul>
+        <li><strong>Minifiers:</strong> UglifyJS, Google Closure compiler</li>
+        <li><strong>Linters:</strong> JSHint, ESLint</li>
+        <li><strong>Modularity:</strong> AMD, Browserify, Webpack</strong>
+        <li><strong>Static analysis:</strong> Typescript</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>Functional composition</h2>
+
+      <pre><code data-language="javascript">
+        |var data = m.prop()
+        |
+        |// ...
+        |
+        |m("input", {
+        |    oninput: m.withAttr("value", data), // Composition
+        |    value: data()
+        |})
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Functional composition</h2>
+
+      <pre><code data-language="javascript">
+        |var summaryView = function(item) {
+        |    return m(".summary", [
+        |        m("h3", item.name),
+        |        m(".summary-body", item.description)
+        |    ])
+        |}
+        |
+        |// ...
+        |
+        |m(".summaries", projects.map(summaryView))
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Pick your syntax</h2>
+
+      <!-- JS -->
+      <pre><code data-language="javascript">
+        |// Vanilla Javascript
+        |m("ul.things", [
+        |    m("li", "iPhone"),
+        |    m("li", "Macbook"),
+        |])
+      </code></pre>
+
+      <!-- Coffee -->
+      <pre><code data-language="coffeescript">
+      |# Coffescript
+      |m "ul.things",
+      |  m "li", "iPhone"
+      |  m "li", "Macbook"
+      </code></pre>
+
+      <!-- JSX -->
+
+      <pre><code data-language="html">
+        |// React's JSX
+        |&lt;ul class="things"&gt;
+        |    &lt;li&gt;iPhone&lt;/li&gt;
+        |    &lt;li&gt;Macbook&lt;/li&gt;
+        |&lt;/ul&gt;
+      </code></pre>
+    </section>
+
+    <section class="slide inverted">
+      <h1>Basics</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Controllers</h2>
+
+      <p>Function that accepts a single argument of attributes</p>
+      <p>Normally faciliate initializing of data for view</p>
+      <p>Can contain view methods</p>
+
+      <pre><code data-language="javascript">
+        |function controller(attrs) {
+        |    this.submitForm = function() {
+        |       // Do something here
+        |    }
+        |}
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Views</h2>
+
+      <p>Function that accepts the controller and attributes</p>
+      <p>Must return an array of DOM elements (normally using <strong>m</strong> but not required)</p>
+
+      <pre><code data-language="javascript">
+        |function view(ctrl, attrs) {
+        |    return m("h1", "Hello World")
+        |}
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Components</h2>
+
+      <p>An object that has a view function and optionally a controller function</p>
+
+      <pre><code data-language="javascript">
+      |Component = {
+      |    /* controller: function(attrs) {}, */
+      |
+      |    view: function(ctrl, attrs) {}
+      |}
+      </code></pre>
+    </section>
+
+    <section class="slide">
+      <h2>Mounting</h2>
+
+      <p>Receive a component and render to DOM</p>
+
+      <pre><code data-language="javascript">
+        |Component = {
+        |    view: function() {
+        |        return m("h1", "Hello World")
+        |    }
+        |}
+        |
+        |m.mount(document.body, Component)
+      </code></pre>
+    </section>
+
+    <section class="slide inverted">
+      <h1>Taking it further</h1>
+    </section>
+
+    <section class="slide">
+      <h2>Taking it further</h2>
+
+      <ul>
+        <li>Self-contained components (HTML, CSS, JS) or (Markup, styling, business logic)</li>
+        <li>Embedded widgets</li>
+        <li>Mobile apps</li>
       </ul>
     </section>
 
@@ -230,7 +424,19 @@
         <dd><a href="http://twitter.com/adamrdaniels">@adamrdaniels</a></dd>
 
         <dt>Sourcecode</dt>
-        <dd><a href="http://github.com/adam12/asynchronous-task-queues-devtricks-2014">github.com/adam12/asynchronous-task-queues-devtricks-2014</a></dd>
+        <dd><a href="http://github.com/adam12/mithriljs-devtricks-2016">github.com/adam12/mithriljs-devtricks-2016</a></dd>
+
+        <dt>Demo</dt>
+        <dd><a href="http://jsbin.com/yutije/edit?js,output">JSBin</a></dd>
+
+        <dt>Mithril</dt>
+        <dd><a href="http://mithril.js.org">mithril.js.org</a></dd>
+
+        <dt>Mithril Blog (lots of gems)</dt>
+        <dd><a href="http://lhorie.github.io/mithril-blog/">lhorie.github.io/mithril-blog</a></dd>
+
+        <dt>Leo Horie's Talk for some borrowed content</dt>
+        <dd><a href="http://lhorie.github.io/mithril-presentation-duolingo/">Slides</a></dd>
       </dl>
     </section>
 

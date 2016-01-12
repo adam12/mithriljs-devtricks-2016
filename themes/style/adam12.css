@@ -78,7 +78,7 @@ pre, code, kbd, samp {
 }
 
 a {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 a:hover, a:active {
   outline: none;
@@ -165,7 +165,7 @@ button {
 }
 
 select, input, textarea {
-  color: #444;
+  color: #444444;
 }
 
 a {
@@ -291,16 +291,16 @@ li > ol, li > ul {
 }
 
 h1 {
-  color: #fff;
+  color: white;
 }
 
 h2 {
-  color: #fff;
+  color: white;
   border-bottom-color: #ccc;
 }
 
 h3 {
-  color: #fff;
+  color: white;
 }
 
 pre {
@@ -325,17 +325,17 @@ blockquote cite {
 }
 
 ::-moz-selection {
-  background: #00181f;
-  color: #fff;
+  background: #4d994d;
+  color: white;
 }
 
 ::selection {
-  background: #00181f;
-  color: #fff;
+  background: #4d994d;
+  color: white;
 }
 
 a, a:hover, a:focus, a:active, a:visited {
-  color: #00b8eb;
+  color: #cce5cc;
   text-decoration: none;
 }
 a:hover, a:focus {
@@ -345,8 +345,8 @@ a:hover, a:focus {
 .deck-container {
   font-family: "Helvetica Neue", sans-serif;
   font-size: 1.75em;
-  background: #002C38;
-  color: #fff;
+  background: #55aa55;
+  color: white;
 }
 .deck-container > .slide {
   padding: 0 48px;
@@ -364,16 +364,16 @@ a:hover, a:focus {
   font-family: serif;
 }
 .deck-prev-link, .deck-prev-link:hover, .deck-prev-link:focus, .deck-prev-link:active, .deck-prev-link:visited, .deck-next-link, .deck-next-link:hover, .deck-next-link:focus, .deck-next-link:active, .deck-next-link:visited {
-  color: #fff;
+  color: white;
 }
 .deck-prev-link:hover, .deck-prev-link:focus, .deck-next-link:hover, .deck-next-link:focus {
-  background: #00181f;
+  background: #4d994d;
   text-decoration: none;
 }
 
 .deck-status {
   font-size: 0.6666em;
-  color: #fff;
+  color: white;
 }
 
 .deck-menu .slide {
@@ -402,11 +402,11 @@ dl dd {
 }
 
 .slide.inverted {
-  background: #fff;
-  color: #002C38;
+  background: white;
+  color: #55aa55;
 }
 .slide.inverted p, .slide.inverted h1, .slide.inverted h2, .slide.inverted h3, .slide.inverted span, .slide.inverted a {
-  color: #002C38;
+  color: #55aa55;
 }
 
 ul.more-information {
@@ -428,5 +428,3 @@ ul.more-information {
 .slide th {
   text-align: left;
 }
-
-/*# sourceMappingURL=adam12.css.map */
